@@ -1,0 +1,56 @@
+DOCUMENT: PnL Anomaly Types and Causes
+SOURCE: Internal Finance Reference Guide
+
+--- LARGE LOSS SPIKE ---
+A large loss spike occurs when a single trade or position shows a loss significantly larger than the desk's historical daily average.
+Common causes:
+- Incorrect trade booking (wrong notional, wrong side of trade)
+- Market data feed error (stale or erroneous price used for mark-to-market)
+- Unauthorized position taken outside approved limits
+- Genuine adverse market move (e.g., flash crash, unexpected rate hike)
+Recommended action: Immediately verify the trade booking details against the original order ticket. Check market data timestamps. If booking looks correct, escalate to risk management.
+
+--- SUDDEN PnL REVERSAL ---
+A sudden PnL reversal is when a position that was showing significant gains flips to losses (or vice versa) within a single day without a corresponding market event.
+Common causes:
+- Trade amendment or cancellation processed late
+- Valuation model parameter update (e.g., volatility surface refresh)
+- Incorrect accrual or coupon payment posted
+Recommended action: Review any trade amendments submitted in the past 24 hours. Verify model parameters match the official market data snapshot.
+
+--- ZERO PnL ON ACTIVE POSITION ---
+A position that should be generating daily PnL shows exactly zero. This is statistically very unlikely for any live market position.
+Common causes:
+- Position accidentally marked as inactive in the system
+- Market data feed disconnection causing stale prices
+- Reconciliation error where offsetting trades netted incorrectly
+Recommended action: Confirm position status in the trade management system. Verify market data feed connectivity.
+
+--- OUTLIER COMPARED TO DESK AVERAGE ---
+A trade whose daily PnL deviates more than 3 standard deviations from the desk's mean is flagged as a statistical outlier.
+Common causes:
+- Unusual concentration of risk in a single name or sector
+- Structured product with non-linear payoff triggered
+- Erroneous multiplier applied to notional
+Recommended action: Review position sizing and concentration limits. Confirm notional and multiplier fields in the trade booking system.
+
+DOCUMENT: Mark-to-Market Valuation Basics
+SOURCE: Risk Management Primer
+
+Mark-to-market (MTM) is the practice of valuing a position at its current market price rather than its historical cost.
+Daily PnL = (Today's MTM Price - Yesterday's MTM Price) x Notional
+For derivatives, the MTM calculation uses pricing models (Black-Scholes for options, discounted cash flow for swaps).
+A booking error in notional has a linear effect on PnL — doubling the notional doubles the PnL impact.
+A model parameter error (e.g., wrong volatility) has a non-linear effect for options positions.
+
+DOCUMENT: Trade Reconciliation Process
+SOURCE: Operations Manual
+
+Reconciliation is the process of matching internal trade records against external counterparty confirmations and exchange records.
+Breaks in reconciliation (unmatched trades) are a leading indicator of booking errors.
+A "long break" (open for more than 2 business days) requires escalation to the trade support desk.
+Reconciliation differences in PnL that exceed $10,000 per trade must be reported to the desk head the same day.
+Common reconciliation error types:
+1. Quantity mismatch: internal system shows different notional than counterparty confirms
+2. Price mismatch: trade booked at wrong execution price
+3. Date mismatch: settlement date entered incorrectly, causing accrual timing errors
