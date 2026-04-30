@@ -2,7 +2,7 @@
 
 A LangGraph agent that detects anomalous trade PnL, retrieves relevant
 finance documentation via RAG, and generates plain-English explanations
-using Claude. Built as a portfolio project for ML/Agentic AI roles.
+using Claude.
 
 <img width="720" height="756" alt="image" src="https://github.com/user-attachments/assets/4c3c7a57-741f-4912-819d-2e3eb2dbf32d" />
 
